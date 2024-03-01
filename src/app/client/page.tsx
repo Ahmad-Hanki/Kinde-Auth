@@ -2,14 +2,15 @@
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { LoginLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 
 const Client = () => {
   const pathname = usePathname();
   const { user, isLoading, isAuthenticated } = useKindeBrowserClient();
 
   if (isLoading) return <h1>Loading</h1>;
-  else {
+  if (!isAuthenticated) redirect('/api/auth/login?post_login_redirect_url=/client')
+  
     return (
       <div>
         {isLoading && pathname !== "/client" && <p>...Loading</p>}
@@ -24,6 +25,5 @@ const Client = () => {
       </div>
     );
   }
-};
 
 export default Client;

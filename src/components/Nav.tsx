@@ -18,31 +18,32 @@ const links = [
 ];
 
 const Nav = async () => {
-  const { isAuthenticated } = getKindeServerSession();
+  const { isAuthenticated, getUser } = getKindeServerSession();
   const isLoggedIn = await isAuthenticated();
+  const user = await getUser();
   return (
     <header className="bg-slate-300 p-6">
       <nav className="max-w-4xl mx-auto flex justify-between ">
         <ul className="flex justify-end gap-10">
           {links.map((link) => {
+            const content = (
+              <LinkComponent
+                name={link.name}
+                path={link.path}
+                key={link.name}
+              />
+            );
+
             if (link.path == "/dashboard" || link.path == "/client") {
               if (isLoggedIn) {
-                return (
-                  <LinkComponent
-                    name={link.name}
-                    path={link.path}
-                    key={link.name}
-                  />
-                );
-              }
+                return content;
+              } else return null;
+            } else if (link.path == "/admin") {
+              if (isLoggedIn && user?.email == "itxti909@gmail.com") {
+                return content;
+              } else return null;
             } else {
-              return (
-                <LinkComponent
-                  name={link.name}
-                  path={link.path}
-                  key={link.name}
-                />
-              );
+              return content;
             }
           })}
         </ul>
@@ -53,7 +54,7 @@ const Nav = async () => {
           ) : (
             <>
               <LoginLink>Sign In</LoginLink>
-              
+
               <RegisterLink>Register</RegisterLink>
             </>
           )}
