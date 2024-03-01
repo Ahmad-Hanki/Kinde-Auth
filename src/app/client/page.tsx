@@ -10,7 +10,7 @@ const Client = () => {
 
   if (isLoading) return <h1>Loading</h1>;
   if (!isAuthenticated) redirect('/api/auth/login?post_login_redirect_url=/client')
-  
+  console.log(user?.picture)
     return (
       <div>
         {isLoading && pathname !== "/client" && <p>...Loading</p>}

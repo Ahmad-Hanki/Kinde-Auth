@@ -55,7 +55,7 @@ const Nav = async () => {
             <>
               <LoginLink>Sign In</LoginLink>
 
-              <RegisterLink>Register</RegisterLink>
+              <RegisterLink postLoginRedirectURL="/">Register</RegisterLink>
             </>
           )}
         </div>
